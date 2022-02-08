@@ -13,6 +13,8 @@ class TaskManagerController extends AbstractController
      */
     public function index(): Response
     {
+        $user = $this->getUser();
+        var_dump($user);
         return $this->render('base.html.twig');
     }
 }
