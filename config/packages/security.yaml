@@ -24,6 +24,7 @@ security:
                 # "login" is the name of the route created previously
                 login_path: login
                 check_path: login
+                enable_csrf: true
             logout:
                 path: app_logout
 
@@ -38,8 +39,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # change '/admin' by the URL used by your Dashboard
+        - { path: ^/admin, roles: ROLE_ADMIN }
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
 
 when@test:
     security:
