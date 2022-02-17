@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Form\TaskType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,19 +22,23 @@ class TaskController extends AbstractController
     }
 
     #[Route('/task', name: 'create_task')]
-    public function createTask(ManagerRegistry $doctrine): Response
+    public function createTask(Request $request, ManagerRegistry $doctrine): Response
     {
-        $entitryManager = $doctrine->getManager();
         $task = new Task();
-        $task->setTitle("Test");
-        $task->setDescription("Test description");
-        $user = $this->getUser();
-        $task->setAuthor($user);
-        $task->setCreationDate();
-        $task->setPriority("Medium");
-        $entitryManager->persist($task);
-        $entitryManager->flush();
+        $form = $this->createForm(TaskType::class, $task);
 
-        return new Response('Saved new task named '.$task->getTitle().' with id '.$task->getId());
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
+            $author = $this->getUser(); // Setting 'author' value to current user object outside the form
+            $task->setAuthor($author);
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($task);
+            $entityManager->flush();
+        }
+
+        return $this->renderForm('task/task.html.twig',[
+            'form' => $form
+        ]);
     }
 }

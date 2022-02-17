@@ -35,6 +35,10 @@ class Task
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $deadline;
 
+    public function __construct()
+    {
+        $this->setCreationDate();
+    }
 
     public function getId(): ?int
     {
