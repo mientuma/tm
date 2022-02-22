@@ -6,6 +6,12 @@
 parameters:
 
 services:
+
+    task.author.assignment.listener:
+        class: App\EventListener\TaskAuthorAssignmentListener
+        tags:
+            - { name: doctrine.event_listener , event: prePersist }
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

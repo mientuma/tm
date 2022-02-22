@@ -6,6 +6,7 @@ use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Task
 {
     #[ORM\Id]
@@ -37,7 +38,7 @@ class Task
 
     public function __construct()
     {
-        $this->setCreationDate();
+        $this->setCreationDate(new \DateTime());
     }
 
     public function getId(): ?int
@@ -86,9 +87,9 @@ class Task
         return $this->creationDate;
     }
 
-    public function setCreationDate(): self
+    public function setCreationDate(?\DateTimeInterface $creationDate): self
     {
-        $this->creationDate = new \DateTime();
+        $this->creationDate = $creationDate;
 
         return $this;
     }

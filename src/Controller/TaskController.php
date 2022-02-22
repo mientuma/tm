@@ -30,8 +30,6 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $form->getData();
-            $author = $this->getUser(); // Setting 'author' value to current user object outside the form
-            $task->setAuthor($author);
             $entityManager = $doctrine->getManager();
             $entityManager->persist($task);
             $entityManager->flush();
