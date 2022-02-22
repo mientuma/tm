@@ -36,11 +36,6 @@ class Task
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $deadline;
 
-    public function __construct()
-    {
-        $this->setCreationDate(new \DateTime());
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -87,9 +82,10 @@ class Task
         return $this->creationDate;
     }
 
-    public function setCreationDate(?\DateTimeInterface $creationDate): self
+    #[ORM\PreFlush]
+    public function setCreationDate(): self
     {
-        $this->creationDate = $creationDate;
+        $this->creationDate = new \DateTime();
 
         return $this;
     }

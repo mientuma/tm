@@ -21,7 +21,6 @@ class TaskAuthorAssignmentListener
         if ($entity instanceof Task)
         {
             $entity->setAuthor($this->security->getUser());
-            dump($entity);
         }
     }
 
