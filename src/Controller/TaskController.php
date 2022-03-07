@@ -16,13 +16,11 @@ class TaskController extends AbstractController
     #[Route('/', name: 'tm_index')]
     public function index(): Response
     {
-        $user = $this->getUser();
-        dump($user);
         return $this->render('base.html.twig');
     }
 
     #[Route('/task/create', name: 'create_task')]
-    public function createTask(Request $request, ManagerRegistry $doctrine): Response
+    public function create(Request $request, ManagerRegistry $doctrine): Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -41,7 +39,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/task/{id}', name: 'show_task')]
-    public function showTask(ManagerRegistry $doctrine, int $id): Response
+    public function show(ManagerRegistry $doctrine, int $id): Response
     {
         $task = $doctrine->getRepository(Task::class)->find($id);
         if ($task){
@@ -56,13 +54,60 @@ class TaskController extends AbstractController
         }
     }
 
-    #[Route('/task/list', name: 'show_tasks')]
-    public function listTasks(ManagerRegistry $doctrine): Response
+    #[Route('/tasks/list', name: 'show_tasks')]
+    public function list(ManagerRegistry $doctrine): Response
     {
         $tasks = $doctrine->getRepository(Task::class)->findAll();
-        dump($tasks);
         return $this->render('task/tasks_list.html.twig',
             ['tasks' => $tasks]
         );
     }
+
+    #[Route('/task/edit/{id}', name: 'edit_task')]
+    public function edit(ManagerRegistry $doctrine, int $id, Request $request): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $task = $entityManager->getRepository(Task::class)->find($id);
+
+        if (!$task){
+            throw $this->createNotFoundException(
+                'No task found for id '.$id
+            );
+        }
+
+        $form = $this->createForm(TaskType::class, $task);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($task);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_task', [
+                'id' => $id
+            ]);
+        }
+        return $this->renderForm('task/edit_task.html.twig',[
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/task/delete/{id}', name: 'delete_task')]
+    public function delete(ManagerRegistry $doctrine, int $id): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $task = $entityManager->getRepository(Task::class)->find($id);
+
+        if (!$task){
+            throw $this->createNotFoundException(
+                'No task found for id '.$id
+            );
+        }
+
+        $entityManager->remove($task);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('show_tasks');
+    }
+
 }

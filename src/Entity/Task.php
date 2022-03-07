@@ -89,8 +89,10 @@ class Task
     #[ORM\PreFlush]
     public function setCreationDate(): self
     {
+        if (isset($this->creationDate)){
+            return $this;
+        }
         $this->creationDate = new \DateTime();
-
         return $this;
     }
 
@@ -140,10 +142,7 @@ class Task
         if (isset($this->responsibleWorker)){
             return $this->responsibleWorkerName = $this->responsibleWorker->getUsername();
         }
-        else
-        {
             return null;
-        }
     }
     
 }

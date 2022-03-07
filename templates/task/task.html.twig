@@ -11,7 +11,7 @@
     <li>Created at: {{ task.creationDate|date('d-m-Y, H:i:s') }}</li>
     <li>Responsible worker: {{ task.responsibleWorkerName }}</li>
     <li>Priority: {{ task.priority }}</li>
-    <li>Deadline: {{ task.deadline }} </li>
+    <li>Deadline: {{ task.deadline|date('d-m-Y, H:i:s') }} </li>
 
 
 
