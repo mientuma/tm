@@ -17,11 +17,11 @@ class TaskController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
-        var_dump($user);
+        dump($user);
         return $this->render('base.html.twig');
     }
 
-    #[Route('/task', name: 'create_task')]
+    #[Route('/task/create', name: 'create_task')]
     public function createTask(Request $request, ManagerRegistry $doctrine): Response
     {
         $task = new Task();
@@ -35,8 +35,34 @@ class TaskController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->renderForm('task/task.html.twig',[
+        return $this->renderForm('task/create_task.html.twig',[
             'form' => $form
         ]);
+    }
+
+    #[Route('/task/{id}', name: 'show_task')]
+    public function showTask(ManagerRegistry $doctrine, int $id): Response
+    {
+        $task = $doctrine->getRepository(Task::class)->find($id);
+        if ($task){
+            return $this->render('task/task.html.twig',
+                ['task' => $task]
+            );
+        }
+        else {
+            throw $this->createNotFoundException(
+                'No task found for id '.$id
+            );
+        }
+    }
+
+    #[Route('/task/list', name: 'show_tasks')]
+    public function listTasks(ManagerRegistry $doctrine): Response
+    {
+        $tasks = $doctrine->getRepository(Task::class)->findAll();
+        dump($tasks);
+        return $this->render('task/tasks_list.html.twig',
+            ['tasks' => $tasks]
+        );
     }
 }

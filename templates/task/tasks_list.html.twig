@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TaskController!{% endblock %}
+
+{% block body %}
+
+{% for task in tasks %}
+    <ul>
+        <li>Id: {{ task.id }}</li>
+        <li>Title: {{ task.title }}</li>
+    </ul>
+
+
+{% endfor %}
+
+{% endblock %}

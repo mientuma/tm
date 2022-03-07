@@ -4,15 +4,16 @@
 
 {% block body %}
 
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
-    {{ form_row(form.title) }}
-    {{ form_row(form.description) }}
-    {{ form_row(form.priority) }}
-    {{ form_row(form.deadline) }}
-    {{ form_row(form.responsibleWorker) }}
-    {{ form_row(form.submit, { 'label': 'Submit me' }) }}
-    {{ form_row(form._token) }}
-    {{ form_end(form, {'render_rest': false}) }}
+    <li>Id: {{ task.id }}</li>
+    <li>Title: {{ task.title }}</li>
+    <li>Description: {{ task.description }}</li>
+    <li>Author: {{ task.authorName }}</li>
+    <li>Created at: {{ task.creationDate|date('d-m-Y, H:i:s') }}</li>
+    <li>Responsible worker: {{ task.responsibleWorkerName }}</li>
+    <li>Priority: {{ task.priority }}</li>
+    <li>Deadline: {{ task.deadline }} </li>
+
+
+
 
 {% endblock %}

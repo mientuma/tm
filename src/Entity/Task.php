@@ -36,6 +36,10 @@ class Task
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $deadline;
 
+    private $authorName;
+
+    private $responsibleWorkerName;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -67,7 +71,7 @@ class Task
 
     public function getAuthor(): ?User
     {
-        return $this->author;
+        return $this->author->getUsername();
     }
 
     public function setAuthor(?User $author): self
@@ -124,6 +128,22 @@ class Task
         $this->deadline = $deadline;
 
         return $this;
+    }
+
+    public function getAuthorName()
+    {
+        return $this->authorName = $this->author->getUsername();
+    }
+
+    public function getResponsibleWorkerName()
+    {
+        if (isset($this->responsibleWorker)){
+            return $this->responsibleWorkerName = $this->responsibleWorker->getUsername();
+        }
+        else
+        {
+            return null;
+        }
     }
     
 }
