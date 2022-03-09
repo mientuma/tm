@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -15,9 +17,12 @@ class Task
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, minMessage: "Too short")]
     private $title;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
     private $description;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -31,9 +36,13 @@ class Task
     private $responsibleWorker;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
     private $priority;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Assert\Range(
+        min: 'now Europe/Warsaw'
+    )]
     private $deadline;
 
     private $authorName;
@@ -144,5 +153,4 @@ class Task
         }
             return null;
     }
-    
 }
