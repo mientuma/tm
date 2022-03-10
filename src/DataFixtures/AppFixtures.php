@@ -12,8 +12,6 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $this->loadUsers($manager);
-//        $users = $manager->getRepository(User::class)->findAll();
-//        dump($users);
         $this->loadTasks($manager);
     }
 
@@ -34,9 +32,9 @@ class AppFixtures extends Fixture
     {
         foreach ($this->getTasksData() as [$title, $description, $authorID, $responsibleWorkerID, $priority])
         {
+            $task = new Task();
             $author = $manager->getRepository(User::class)->find($authorID);
             $responsibleWorker = $manager->getRepository(User::class)->find($responsibleWorkerID);
-            $task = new Task();
             $task->setTitle($title);
             $task->setDescription($description);
             $task->setAuthor($author);
@@ -61,8 +59,12 @@ class AppFixtures extends Fixture
     private function getTasksData(): array
     {
         return [
-            ['Make invoice', 'Settle the investment', 0, 3, 'High'],
-            ['Make estimate', 'Make cost estimate', 0, 3, 'Medium']
+            ['Make invoice', 'Settle the investment', 1, 3, 'High'],
+            ['Make estimate', 'Make cost estimate', 1, 2, 'Medium'],
+            ['Organise meeting', 'Organise business meeting with new company', 1, 4, 'Medium'],
+            ['Search clients', 'Search new clients via social media campaign', 1, 3, 'Low'],
+            ['Order computers', 'Order new computers for our office', 1, 4, 'High'],
+            ['Make cookies', 'Bake some cookies for my office friends', 3, 3, 'Low']
         ];
     }
 }

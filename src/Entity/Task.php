@@ -80,7 +80,7 @@ class Task
 
     public function getAuthor(): ?User
     {
-        return $this->author->getUsername();
+        return $this->author;
     }
 
     public function setAuthor(?User $author): self

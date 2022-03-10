@@ -29,6 +29,7 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $form->getData();
             $entityManager = $doctrine->getManager();
+            dump($task);
             $entityManager->persist($task);
             $entityManager->flush();
         }

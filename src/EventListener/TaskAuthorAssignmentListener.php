@@ -20,7 +20,10 @@ class TaskAuthorAssignmentListener
         $entity = $args->getObject();
         if ($entity instanceof Task)
         {
-            $entity->setAuthor($this->security->getUser());
+            $user = $this->security->getUser();
+            if (isset($user)) {
+                $entity->setAuthor($user);
+            }
         }
     }
 
