@@ -9,8 +9,8 @@
         <li>Id: {{ task.id }}</li>
         <li>Title: {{ task.title }}</li>
     </ul>
-
-
 {% endfor %}
+
+        {{ knp_pagination_render(tasks) }}
 
 {% endblock %}

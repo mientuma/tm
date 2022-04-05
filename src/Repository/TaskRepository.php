@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method Task|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,10 +15,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TaskRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatorInterface $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Task::class);
+        $this->paginator = $paginator;
     }
+
+    public function findAllPaginated($page): \Knp\Component\Pager\Pagination\PaginationInterface
+    {
+        $query = $this->createQueryBuilder('t')
+            ->getQuery();
+        $pagination = $this->paginator->paginate($query, $page, 5);
+        return $pagination;
+    }
+
+
 
     // /**
     //  * @return Task[] Returns an array of Task objects

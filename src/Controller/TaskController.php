@@ -55,10 +55,10 @@ class TaskController extends AbstractController
         }
     }
 
-    #[Route('/tasks/list', name: 'show_tasks')]
-    public function list(ManagerRegistry $doctrine): Response
+    #[Route('/tasks/list/{page}', name: 'list_tasks', defaults: ['page' => 1])]
+    public function list(ManagerRegistry $doctrine, $page): Response
     {
-        $tasks = $doctrine->getRepository(Task::class)->findAll();
+        $tasks = $doctrine->getRepository(Task::class)->findAllPaginated($page);
         return $this->render('task/tasks_list.html.twig',
             ['tasks' => $tasks]
         );
