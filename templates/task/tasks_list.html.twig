@@ -6,13 +6,8 @@
 
     {{ include('includes/_sort.html.twig') }}
 
-{% for task in tasks %}
-    <ul>
-        <li>Id: {{ task.id }}</li>
-        <li>Title: {{ task.title }}</li>
-    </ul>
-{% endfor %}
+    {{ include('includes/_tasks.html.twig') }}
 
-        {{ knp_pagination_render(tasks) }}
+    {{ knp_pagination_render(tasks) }}
 
 {% endblock %}

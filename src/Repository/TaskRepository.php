@@ -33,6 +33,31 @@ class TaskRepository extends ServiceEntityRepository
         return $pagination;
     }
 
+    public function findByTitle($query, $page, $sortMethod): \Knp\Component\Pager\Pagination\PaginationInterface
+    {
+        $sortMethod = $sortMethod != 'priority' ? $sortMethod : 'ASC';
+        $qb = $this->createQueryBuilder('t');
+        $searchTerms = $this->prepareQuery($query);
+
+        foreach ($searchTerms as $key => $term)
+        {
+            $qb
+                ->orWhere('t.title LIKE :t_'.$key)
+                ->setParameter('t_'.$key, '%'.trim($term).'%');
+        }
+
+        $dbquery =  $qb
+            ->orderBy('t.title', $sortMethod)
+            ->getQuery();
+
+        return $this->paginator->paginate($dbquery, $page, 5);
+
+    }
+
+    private function prepareQuery($query): array
+    {
+        return explode(' ',$query);
+    }
 
 
     // /**

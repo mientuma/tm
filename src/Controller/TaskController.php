@@ -111,4 +111,23 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('show_tasks');
     }
 
+    #[Route('/tasks/search/{page}', name: 'search_tasks', defaults: ['page' => 1], methods: 'GET')]
+    public function search(ManagerRegistry $doctrine, $page, Request $request): Response
+    {
+        $tasks = null;
+        $query = null;
+
+        if ($query = $request->get('query'))
+        {
+            $tasks = $doctrine->getRepository(Task::class)->
+            findByTitle($query, $page, $request->get('sortby'));
+
+            if (!$tasks->getItems()) $tasks = null;
+        }
+        return $this->render('task/search.html.twig',[
+            'tasks' => $tasks,
+            'query' => $query
+        ]);
+    }
+
 }

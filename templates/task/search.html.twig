@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <section class="jumbotron text-center">
+        <div class="container">
+            {% if tasks %}
+                <h1 class="jumbotron-heading">Search results</h1>
+                {{ include('includes/_sort.html.twig', {'query':query}) }}
+            {% else %}
+                <h1 class="jumbotron-heading">No results were found</h1>
+            {% endif %}
+        </div>
+    </section>
+    {% if tasks %}
+        {{ include('includes/_tasks.html.twig', {'tasks':tasks}) }}
+        {{ knp_pagination_render(tasks) }}
+    {% endif %}
+{% endblock %}
