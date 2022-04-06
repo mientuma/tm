@@ -4,6 +4,8 @@
 
 {% block body %}
 
+    {{ include('includes/_sort.html.twig') }}
+
 {% for task in tasks %}
     <ul>
         <li>Id: {{ task.id }}</li>

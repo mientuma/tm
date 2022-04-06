@@ -23,9 +23,11 @@ class TaskRepository extends ServiceEntityRepository
         $this->paginator = $paginator;
     }
 
-    public function findAllPaginated($page): \Knp\Component\Pager\Pagination\PaginationInterface
+    public function findAllPaginated($page, $sortMethod): \Knp\Component\Pager\Pagination\PaginationInterface
     {
+        $sortMethod = $sortMethod != 'priority' ? $sortMethod : 'ASC';
         $query = $this->createQueryBuilder('t')
+            ->orderBy('t.title', $sortMethod)
             ->getQuery();
         $pagination = $this->paginator->paginate($query, $page, 5);
         return $pagination;
