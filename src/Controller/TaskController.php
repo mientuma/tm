@@ -19,7 +19,7 @@ class TaskController extends AbstractController
         return $this->render('task/index.html.twig');
     }
 
-    #[Route('/task/create', name: 'create_task')]
+    #[Route('/task/create', name: 'tm_create_task')]
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
         $task = new Task();
@@ -39,7 +39,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/task/{id}', name: 'show_task')]
+    #[Route('/task/{id}', name: 'tm_show_task')]
     public function show(ManagerRegistry $doctrine, int $id): Response
     {
         $task = $doctrine->getRepository(Task::class)->find($id);
@@ -55,7 +55,7 @@ class TaskController extends AbstractController
         }
     }
 
-    #[Route('/tasks/list/{page}', name: 'list_tasks', defaults: ['page' => 1])]
+    #[Route('/tasks/list/{page}', name: 'tm_list_tasks', defaults: ['page' => 1])]
     public function list(ManagerRegistry $doctrine, $page, Request $request): Response
     {
         $tasks = $doctrine->getRepository(Task::class)->findAllPaginated($page, $request->get('sortby'));
@@ -64,7 +64,7 @@ class TaskController extends AbstractController
         );
     }
 
-    #[Route('/task/edit/{id}', name: 'edit_task')]
+    #[Route('/task/edit/{id}', name: 'tm_edit_task')]
     public function edit(ManagerRegistry $doctrine, int $id, Request $request): Response
     {
         $entityManager = $doctrine->getManager();
@@ -84,7 +84,7 @@ class TaskController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
-            return $this->redirectToRoute('show_task', [
+            return $this->redirectToRoute('tm_show_task', [
                 'id' => $id
             ]);
         }
@@ -93,7 +93,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/task/delete/{id}', name: 'delete_task')]
+    #[Route('/task/delete/{id}', name: 'tm_delete_task')]
     public function delete(ManagerRegistry $doctrine, int $id): Response
     {
         $entityManager = $doctrine->getManager();
@@ -108,10 +108,10 @@ class TaskController extends AbstractController
         $entityManager->remove($task);
         $entityManager->flush();
 
-        return $this->redirectToRoute('show_tasks');
+        return $this->redirectToRoute('tm_list_tasks');
     }
 
-    #[Route('/tasks/search/{page}', name: 'search_tasks', defaults: ['page' => 1], methods: 'GET')]
+    #[Route('/tasks/search/{page}', name: 'tm_search_tasks', defaults: ['page' => 1], methods: 'GET')]
     public function search(ManagerRegistry $doctrine, $page, Request $request): Response
     {
         $tasks = null;
