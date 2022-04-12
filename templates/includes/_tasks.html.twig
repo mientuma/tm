@@ -1,6 +1,15 @@
+<div class="list-group">
 {% for task in tasks %}
-    <ul>
-        <li>Id: {{ task.id }}</li>
-        <li>Title: {{ task.title }}</li>
-    </ul>
+    <a href="{{ path('tm_show_task', {id: task.id}) }}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ task.title }}</h5>
+            <small class="text-muted">Priority: {{ task.priority }}</small>
+        </div>
+        <p class="mb-1">
+            {{ task.description }}
+        </p>
+        <small class="text-muted">{% if task.deadline %}{{ task.deadline|date("F jS \\a\\t g:ia") }}{% else %}No deadline{% endif %}</small>
+    </a>
 {% endfor %}
+</div>
+
