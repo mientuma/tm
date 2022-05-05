@@ -56,15 +56,27 @@ class AppFixtures extends Fixture
         ];
     }
 
+    // $title, $description, $authorID, $responsibleWorkerID, $priority
     private function getTasksData(): array
     {
         return [
-            ['Make invoice', 'Settle the investment', 1, 3, 'High'],
+            ['Invoice', 'Issue an invoice for our clients', 1, 3, 'High'],
             ['Make estimate', 'Make cost estimate', 1, 2, 'Medium'],
             ['Organise meeting', 'Organise business meeting with new company', 1, 4, 'Medium'],
             ['Search clients', 'Search new clients via social media campaign', 1, 3, 'Low'],
             ['Order computers', 'Order new computers for our office', 1, 4, 'High'],
-            ['Make cookies', 'Bake some cookies for my office friends', 3, 3, 'Low']
+            ['Make cookies', 'Bake some cookies for my office friends', 3, 3, 'Low'],
+            ['Order spare parts', 'Order spare parts for contractors', 1, 2, 'High'],
+            ['Contact accountancy', 'Contact accounting department to clarify the issue with last invoices', 2, 2, 'High'],
+            ['Settle the investment', 'Settle the investment with our clients', 1, 2, 'Medium'],
+            ['Archive documents', 'Archive the documents from last year', 1, 3, 'Low',],
+            ['Prepare workplace', 'Prepare worklace for our new employee', 1, 4, 'Medium'],
+            ['Clean up conference room', 'Clean up conference room before next meeting', 1, 3, 'Medium'],
+            ['Make appointment with new client', 'Contact and make an appointment with a client I told you about in last email', 1, 3, 'High'],
+            ['Organise interview', 'Organise an interview with a local radio station', 1, 3, 'Medium'],
+            ['Make measurements', 'Meet with clients engineer to make measurements', 1, 2, 'High'],
+            ['Make offer', 'Prepare an offer cost estimate after measurements', 1, 2, 'High'],
+            ['Bring mug back', 'Bring your fauvorite mug back home :)', 2, 2, 'Low']
         ];
     }
 }
